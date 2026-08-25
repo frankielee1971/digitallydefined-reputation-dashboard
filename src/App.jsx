@@ -12,6 +12,7 @@ import ChatWidget from "./components/ChatWidget";
 import ScrollProgress from "./components/ScrollProgress";
 import LandingPage from "./pages/LandingPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PremiumGate from "./components/PremiumGate";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 
@@ -48,7 +49,16 @@ function App() {
         <Route path="/quiz" element={<DigitalSuperpowerQuiz />} />
         <Route path="/automations" element={<AssistantPage />} />
         <Route path="/thank-you-calculator" element={<ThankYouCalculatorPage />} />
-        <Route path="/intelligence" element={<IntelligencePage />} />
+        <Route
+          path="/intelligence"
+          element={
+            <ProtectedRoute>
+              <PremiumGate feature="Intelligence">
+                <IntelligencePage />
+              </PremiumGate>
+            </ProtectedRoute>
+          }
+        />
 
         {/* ⭐ Live website analytics (AI Business Partner data source) */}
         {isDashboardDomain && (
@@ -68,7 +78,9 @@ function App() {
             path="/assistant"
             element={
               <ProtectedRoute>
-                <AssistantPage />
+                <PremiumGate feature="AI Business Partner">
+                  <AssistantPage />
+                </PremiumGate>
               </ProtectedRoute>
             }
           />
