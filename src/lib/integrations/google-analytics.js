@@ -1,5 +1,6 @@
 // Google Analytics integration service
 // Requires VITE_GA_MEASUREMENT_ID / VITE_GA_PROPERTY_ID and OAuth credentials in a real backend context.
+import { callSupabaseEdge } from '../supabase-edge';
 
 export async function fetchGoogleAnalytics() {
   const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
@@ -21,18 +22,10 @@ export async function fetchGoogleAnalytics() {
   }
 
   try {
-    const response = await fetch('/api/integrations/ga', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ measurementId, propertyId }),
+    const payload = await callSupabaseEdge('integration.googleAnalytics', {
+      measurementId,
+      propertyId,
     });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || `Google Analytics request failed: ${response.status}`);
-    }
-
-    const payload = await response.json();
     return {
       connected: true,
       propertyId,

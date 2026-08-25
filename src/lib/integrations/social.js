@@ -1,5 +1,6 @@
 // Social media integration service
-// Supports Facebook, Instagram, YouTube, Twitter/X, LinkedIn through a backend proxy.
+// Supports Facebook, Instagram, YouTube, Twitter/X, LinkedIn through the Hermes edge function.
+import { callSupabaseEdge } from '../supabase-edge';
 
 export async function fetchSocialStats() {
   const platforms = {
@@ -46,18 +47,9 @@ export async function fetchSocialStats() {
   }
 
   try {
-    const response = await fetch('/api/integrations/social', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ platforms: Object.fromEntries(activePlatforms) }),
+    const payload = await callSupabaseEdge('integration.social', {
+      platforms: Object.fromEntries(activePlatforms),
     });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || `Social fetch failed: ${response.status}`);
-    }
-
-    const payload = await response.json();
     return {
       connected: true,
       platforms: payload.platforms || {},

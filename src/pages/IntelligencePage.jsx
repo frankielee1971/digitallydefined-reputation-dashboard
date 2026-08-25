@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import IntelligenceDashboard from "../components/intelligence/IntelligenceDashboard";
+import { callSupabaseEdge } from "../lib/supabase-edge";
 
 export default function IntelligencePage() {
   const [data, setData] = useState(null);
@@ -24,18 +25,11 @@ export default function IntelligencePage() {
           return;
         }
 
-        // Call hermes edge function via dashboard proxy
-        const response = await fetch("/api/hermes", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "intelligence",
-            userId: quizData.userId || "unknown",
-            answers: quizData.answers || {}
-          })
+        // Call the Hermes edge function directly (no Vercel proxy)
+        const result = await callSupabaseEdge("intelligence", {
+          userId: quizData.userId || "unknown",
+          answers: quizData.answers || {}
         });
-
-        const result = await response.json();
 
         if (!result.success) {
           throw new Error(result.error || "Unknown error");

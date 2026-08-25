@@ -1,5 +1,6 @@
 // Community integration service
-// Supports Facebook Groups, Discord, Mighty Networks through backend proxy.
+// Supports Facebook Groups, Discord, Mighty Networks through the Hermes edge function.
+import { callSupabaseEdge } from '../supabase-edge';
 
 export async function fetchCommunityStats() {
   const platform = import.meta.env.VITE_COMMUNITY_PLATFORM || 'facebook';
@@ -25,18 +26,12 @@ export async function fetchCommunityStats() {
   }
 
   try {
-    const response = await fetch('/api/integrations/community', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ platform, hasFacebook, hasDiscord, hasMightyNetworks }),
+    const payload = await callSupabaseEdge('integration.community', {
+      platform,
+      hasFacebook,
+      hasDiscord,
+      hasMightyNetworks,
     });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || `Community fetch failed: ${response.status}`);
-    }
-
-    const payload = await response.json();
     return {
       connected: true,
       platform,

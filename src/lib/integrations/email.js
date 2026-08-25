@@ -1,5 +1,6 @@
 // Email list integration service
-// Supports Brevo, Mailchimp through backend proxy.
+// Supports Brevo, Mailchimp through the Hermes edge function.
+import { callSupabaseEdge } from '../supabase-edge';
 
 export async function fetchEmailStats() {
   const provider = import.meta.env.VITE_EMAIL_PROVIDER || 'brevo';
@@ -24,18 +25,11 @@ export async function fetchEmailStats() {
   }
 
   try {
-    const response = await fetch('/api/integrations/email', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ provider, hasBrevo, hasMailchimp }),
+    const payload = await callSupabaseEdge('integration.email', {
+      provider,
+      hasBrevo,
+      hasMailchimp,
     });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || `Email fetch failed: ${response.status}`);
-    }
-
-    const payload = await response.json();
     return {
       connected: true,
       provider,
