@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import Groq from "groq-sdk";
 import { getAnalyticsBrief, formatBriefAsContext } from "../lib/analytics";
+import { callSupabaseEdge } from "../lib/supabase-edge";
 
 const PARTNER_SYSTEM_PROMPT = `You are Hermes, the AI Business Partner inside DigitallyDefined.
 You help Francesca scale digitallydefined.online using REAL website data supplied below.
@@ -36,10 +36,6 @@ export default function AssistantPage() {
     };
   }, []);
 
-  const groq = new Groq({
-    apiKey: process.env.GROQ_API_KEY || import.meta.env.VITE_GROQ_API_KEY || ''
-  });
-
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -57,31 +53,26 @@ export default function AssistantPage() {
     setInput("");
 
     try {
-      const response = await groq.chat.completions.create({
-        model: "llama-3.3-70b-versatile", // free + strong
-        messages: [
-          {
-            role: "system",
-            content: `${PARTNER_SYSTEM_PROMPT}\n\n${analyticsContext}`,
-          },
-          ...updatedMessages,
-        ],
-        temperature: 0.3,
-        stream: false
+      // Routed through the Hermes edge function — AI provider keys stay server-side.
+      const data = await callSupabaseEdge("chat", {
+        message: userMessage.content,
+        systemPrompt: `${PARTNER_SYSTEM_PROMPT}\n\n${analyticsContext}`,
+        conversation: updatedMessages.slice(-10),
       });
 
-      const reply = response.choices?.[0]?.message?.content || 
-        "I’m here — but I didn’t get a response.";
+      const reply = data?.reply || "I’m here — but I didn’t get a response.";
+      const usedProvider = data?.provider || "Hermes";
+      const usedModel = data?.model || null;
 
       const assistantMessage = {
         role: "assistant",
         content: reply,
-        provider: "Groq",
-        model: "llama-3.3-70b-versatile"
+        provider: usedProvider,
+        model: usedModel,
       };
 
-      setProvider("Groq");
-      setModel("llama-3.3-70b-versatile");
+      setProvider(usedProvider);
+      setModel(usedModel);
       setMessages((prev) => [...prev, assistantMessage]);
       setError(null);
 
@@ -89,7 +80,7 @@ export default function AssistantPage() {
       setError(err instanceof Error ? err.message : "Something went wrong.");
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "I couldn’t reach Groq just now." }
+        { role: "assistant", content: "I couldn’t reach Hermes just now." }
       ]);
     }
   };

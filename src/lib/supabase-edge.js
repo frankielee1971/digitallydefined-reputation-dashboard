@@ -14,12 +14,19 @@ export const getSupabaseEdgeUrl = (functionName = 'hermes') => {
 
 export const getSupabaseEdgeHeaders = (extra = {}) => {
   const apiKey = import.meta.env.VITE_DASHBOARD_API_KEY;
+  const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
   if (!apiKey && import.meta.env.DEV) {
     console.warn('[Hermes] VITE_DASHBOARD_API_KEY is not set. Dashboard API calls will fail.');
+  }
+  if (!anonKey && import.meta.env.DEV) {
+    console.warn('[Hermes] VITE_SUPABASE_ANON_KEY is not set. Edge Function auth may fail.');
   }
   return {
     'Content-Type': 'application/json',
     ...(apiKey ? { 'x-api-key': apiKey } : {}),
+    ...(anonKey
+      ? { 'apikey': anonKey, 'Authorization': `Bearer ${anonKey}` }
+      : {}),
     ...extra,
   };
 };

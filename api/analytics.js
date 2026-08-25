@@ -14,8 +14,10 @@ export default async function handler(req, res) {
   const SUPABASE_URL =
     process.env.VITE_SUPABASE_URL || 'https://dijjlppdljpcgyoakdnq.supabase.co';
   const EDGE_URL = `${SUPABASE_URL.replace(/\/+$/, '')}/functions/v1/analytics`;
-  const API_KEY =
-    process.env.VITE_DASHBOARD_API_KEY || 'DigitallyDefined-OS-2026';
+  const API_KEY = process.env.VITE_DASHBOARD_API_KEY || '';
+  if (!API_KEY) {
+    console.error('[analytics-proxy] VITE_DASHBOARD_API_KEY is not set. Upstream may return 401.');
+  }
 
   // Accept GET (?action=overview&days=30) or POST JSON.
   let action = 'overview';
