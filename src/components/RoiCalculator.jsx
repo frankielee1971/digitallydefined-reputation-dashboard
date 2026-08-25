@@ -153,6 +153,11 @@ const RoiCalculator = ({ mode = "free", onFullCalculatorClick }) => {
             >
               10x ROI <span style={{ color: colors.accent }}>Calculator</span>
             </h2>
+            {!isFull && (
+              <p className="dd-roi-privacy">
+                Your inputs stay on this device. Nothing is stored or sent.
+              </p>
+            )}
           </div>
 
           <div style={{ display: "grid", gap: "18px" }}>
@@ -294,18 +299,24 @@ const RoiCalculator = ({ mode = "free", onFullCalculatorClick }) => {
             borderTop: brutalBorder,
             padding: "22px clamp(24px, 4vw, 40px)",
             display: "flex",
-            alignItems: "center",
+            alignItems: "flex-start",
             justifyContent: "space-between",
             gap: "18px",
             flexWrap: "wrap",
             backgroundColor: colors.backgroundAlt,
           }}
         >
-          <p style={{ margin: 0, color: colors.textMuted, maxWidth: "620px" }}>
-            This free version gives the quick signal. The paid full calculator on
-            Gumroad adds retention, reputation lift, annualized upside, and the
-            numbers you need for a serious decision.
-          </p>
+          <div style={{ maxWidth: "620px" }}>
+            <p style={{ margin: 0, color: colors.textMuted, lineHeight: 1.6 }}>
+              This free version gives you a quick signal: monthly revenue, PPC savings,
+              and estimated leads. The paid full calculator on Gumroad adds retention,
+              reputation lift, annualized upside, and the numbers you need for a serious
+              decision.
+            </p>
+            <p className="dd-roi-privacy" style={{ marginTop: "12px" }}>
+              Your inputs stay on this device. Nothing is stored or sent.
+            </p>
+          </div>
           <button
             className="dd-btn"
             type="button"

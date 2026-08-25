@@ -18,6 +18,7 @@ body{min-height:100dvh;font-family:'DM Sans',sans-serif;font-size:16px;backgroun
 .wrap{max-width:1100px;margin:0 auto;padding:2rem 1.25rem 4rem}
 /* NAV */
 nav{display:flex;justify-content:space-between;align-items:center;border-bottom:var(--bdr);padding-bottom:1.5rem;margin-bottom:3rem;flex-wrap:wrap;gap:1rem}
+.nav-priv{margin-top:.5rem;width:100%;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9CA3AF;text-align:center}
 .logo{display:flex;align-items:center;gap:.6rem}
 .logo-name{font-family:'Inter',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:-.04em;line-height:1;border:var(--bdr);background:#FFFCF9;padding:.5rem .75rem}
 .logo-name em{color:var(--or);font-style:italic}
@@ -27,7 +28,11 @@ nav{display:flex;justify-content:space-between;align-items:center;border-bottom:
 .hero{text-align:center;margin-bottom:3rem}
 .hero h1{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(2.5rem,6vw,4.5rem);letter-spacing:-.03em;text-transform:uppercase;line-height:1;color:var(--dk)}
 .hero h1 span{color:var(--or)}
-.hero p{font-size:.85rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-top:.75rem}
+.hero-sub{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--bl);margin-top:.75rem}
+.hero-privacy{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9CA3AF;margin-top:.5rem}
+/* ORIENTATION */
+.orient{border-left:2px solid var(--or);padding:.75rem 1.25rem;background:#fff;margin-bottom:2rem}
+.orient p{font-size:.85rem;font-weight:500;color:var(--dk);line-height:1.6;max-width:600px}
 /* GRID */
 .grid{display:grid;grid-template-columns:1fr 2fr;gap:2rem;align-items:start}
 @media(max-width:900px){.grid{grid-template-columns:1fr}}
@@ -86,7 +91,18 @@ input[type=range].rr::-webkit-slider-thumb{background:var(--rd)}
 .no{color:var(--or);font-weight:700}
 .nb{font-size:1.2rem;font-weight:800}
 .nu{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:3px}
-/* CTA */
+.ps-intro{font-size:.85rem;font-weight:500;color:#4B5563;margin:-.5rem 0 1rem;line-height:1.6}
+.ps-lease{font-size:.9rem;font-weight:500;color:var(--dk);margin-top:.5rem;max-width:100%}
+.ps-lease strong{font-weight:800;color:var(--or)}
+/* GATE OVERLAY */
+#dd-gate{position:fixed;inset:0;background:rgba(17,17,17,.85);display:flex;align-items:center;justify-content:center;padding:1.5rem;z-index:1000}
+.gate-inner{max-width:520px;background:#fff;border:1px solid var(--dk);padding:2.5rem;text-align:center}
+.gate-inner .logo{margin-bottom:1.5rem}
+.gate-inner h2{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(1.5rem,3vw,2.2rem);text-transform:uppercase;color:var(--dk);letter-spacing:-.02em;margin-bottom:.75rem}
+.gate-inner h2 span{color:var(--or)}
+.gate-sub{font-size:.85rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--bl);margin-bottom:.75rem}
+.gate-why{font-size:.9rem;font-weight:500;color:var(--dk);margin-bottom:1.5rem;line-height:1.6}
+.gate-privacy{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9CA3AF;margin-top:1.5rem}
 .cta{margin-top:3rem;border:var(--bdr);background:var(--dk);padding:2.5rem;text-align:center}
 .cta h2{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(1.5rem,3vw,2.2rem);text-transform:uppercase;color:#fff;letter-spacing:-.02em;margin-bottom:.75rem}
 .cta h2 span{color:var(--or)}
@@ -214,16 +230,37 @@ footer a{color:var(--or);text-decoration:none}
   const hasAccess = isTokenValid(activeToken);
 
   if (!hasAccess) {
-    // No valid token → redirect to Gumroad sales page
-    window.location.replace(CONFIG.salesPage);
-    document.body.innerHTML = '<div style="text-align:center;padding:2rem;font-family:Arial,sans-serif">Redirecting to sales page...</div>';
-    return;
+    // No valid token → show gate overlay (user-controlled navigation)
+    showGateOverlay();
   }
 
   // Token is valid - allow access
   // Optionally clean the URL to hide the token
   if (urlToken && window.history && window.history.replaceState) {
     window.history.replaceState({}, document.title, window.location.pathname);
+  }
+
+  // Gate overlay function — shows when no valid token is present
+  function showGateOverlay() {
+    const overlay = document.createElement('div');
+    overlay.id = 'dd-gate';
+    overlay.innerHTML = `
+      <div class="gate-inner">
+        <div class="logo">
+          <div>
+            <div class="logo-name">Digitally<em>Defined</em></div>
+            <div class="logo-sub">For Gen X Women Reinventing Themselves, Digitally</div>
+          </div>
+        </div>
+        <h2>10X ROI <span>Calculator</span></h2>
+        <p class="gate-sub">This calculator shows you the monthly yield of a digital property in 30 seconds — no sign-up, no tracking.</p>
+        <p class="gate-why">Full access unlocks the complete yield model. Get it on Gumroad and bring this calculator back with your token.</p>
+        <a href="${CONFIG.salesPage}" class="btn" target="_blank" rel="noopener noreferrer">Get Full Access on Gumroad</a>
+        <p class="gate-privacy">Your inputs stay on this device. Nothing is stored or sent.</p>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    document.body.style.overflow = 'hidden';
   }
 
 })();
@@ -239,12 +276,18 @@ footer a{color:var(--or);text-decoration:none}
     </div>
   </div>
   <span class="badge">10x ROI Calculator</span>
+  <div class="nav-priv">Your inputs stay on this device. No sign-up. No tracking.</div>
 </nav>
 
 <header class="hero">
   <h1>10X ROI <span>Calculator</span></h1>
-  <p>Digital Real Estate Yield Engine</p>
+  <p class="hero-sub">Find out what your digital property is worth per month — in 30 seconds, no sign-up.</p>
+  <p class="hero-privacy">Your inputs stay on this device. Nothing is stored or sent.</p>
 </header>
+
+<div class="orient">
+  <p>Slide the five inputs on the left. The numbers on the right update instantly. Use the script at the bottom to reach out to tenants.</p>
+</div>
 
 <div class="grid">
   <div>
@@ -307,7 +350,7 @@ footer a{color:var(--or);text-decoration:none}
       <div class="vh">
         <div class="vhl">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8B1A0A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-          <h3>Market Vulnerability</h3>
+          <h3>Your Competitive Edge vs. Paid Ads</h3>
         </div>
         <span class="vtag">PPC Comparison</span>
       </div>
@@ -319,22 +362,24 @@ footer a{color:var(--or);text-decoration:none}
     <div class="pc">
       <div class="ph">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#47B7D4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-        <h3>The Digital Landlord Pitch</h3>
+        <h3>The Script — Use This Exactly</h3>
       </div>
+      <p class="ps-intro">Copy this. Send it to the business owner. The bracketed parts update live as you slide.</p>
       <div class="ps">
         <p>"Hey [Name], I'm auditing the traffic for my digital property, <span class="hl" id="p1">Main Street Plumbing</span>."</p>
         <p>"Last month, this asset delivered <span class="no" id="p2">45 exclusive calls</span> directly to your phone. You've heard the DigitallyDefined watermark on every single one of them."</p>
         <p>"Even if your team only converts <strong id="p3">40%</strong> of those, that's <span class="nb" id="p4">$27,000</span> in gross revenue generated by my property."</p>
         <p>"To buy this same traffic from Google, you'd burn <strong id="p5">$2,925</strong> plus agency fees. I'm not a marketing agency&mdash;I'm a landlord. I'm leasing this exclusive territory to you, guaranteed."</p>
         <p>"Does it make sense to secure this asset now, or should I release the lease to someone else?"</p>
+        <p class="ps-lease"><strong class="nb" id="p6"></strong>/ month — that's the lease price for this territory.</p>
       </div>
     </div>
   </div>
 </div>
 
 <div class="cta">
-  <h2>Ready to See the <span>Real Numbers?</span></h2>
-  <p>The full calculator gives you revenue projections, lead flow modeling, digital asset valuation, competitor benchmarks, and opportunity forecasting.</p>
+  <h2>You Have the Numbers. <span>Now Get the Full Model.</span></h2>
+  <p>The free calculator above is a snapshot. The full Digital Business OS gives you revenue projections, lead flow modeling, digital asset valuation, competitor benchmarks, and opportunity forecasting — all in one place.</p>
   <a href="https://francescaonline.gumroad.com/l/digital-business-os" class="btn" target="_blank" rel="noopener noreferrer">Get Full Access on Gumroad</a>
   <a href="https://facebook.com/groups/digitallydefind" class="btn gh" target="_blank" rel="noopener noreferrer">Join the Community</a>
 </div>

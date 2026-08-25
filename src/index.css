@@ -687,3 +687,13 @@ img {
 img[loading] {
   opacity: 0;
 }
+
+/* ROI Calculator privacy microcopy */
+.dd-roi-privacy {
+  font-size: .65rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--dd-text-muted);
+  margin-top: .5rem;
+}
