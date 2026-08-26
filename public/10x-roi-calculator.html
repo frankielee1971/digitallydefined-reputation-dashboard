@@ -17,13 +17,14 @@ body{min-height:100dvh;font-family:'DM Sans',sans-serif;font-size:16px;backgroun
 }
 .wrap{max-width:1100px;margin:0 auto;padding:2rem 1.25rem 4rem}
 /* NAV */
+/* Unified nav — matches DD shell nav markup */
 nav{display:flex;justify-content:space-between;align-items:center;border-bottom:var(--bdr);padding-bottom:1.5rem;margin-bottom:3rem;flex-wrap:wrap;gap:1rem}
-.nav-priv{margin-top:.5rem;width:100%;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9CA3AF;text-align:center}
-.logo{display:flex;align-items:center;gap:.6rem}
-.logo-name{font-family:'Inter',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:-.04em;line-height:1;border:var(--bdr);background:#FFFCF9;padding:.5rem .75rem}
-.logo-name em{color:var(--or);font-style:italic}
-.logo-sub{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#6B7280;margin-top:2px}
-.badge{font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;border:var(--bdr);background:#fff;padding:.35rem .75rem}
+.dd-privacy{margin-top:.5rem;width:100%;font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9CA3AF;text-align:center}
+.dd-logo{display:flex;align-items:center;gap:.6rem}
+.dd-logo-name{font-family:'Inter',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:-.04em;line-height:1;border:var(--bdr);background:#FFFCF9;padding:.5rem .75rem}
+.dd-logo-name em{color:var(--or);font-style:italic}
+.dd-logo-sub{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#6B7280;margin-top:2px}
+.dd-badge{font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;border:var(--bdr);background:#fff;padding:.35rem .75rem}
 /* HERO */
 .hero{text-align:center;margin-bottom:3rem}
 .hero h1{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(2.5rem,6vw,4.5rem);letter-spacing:-.03em;text-transform:uppercase;line-height:1;color:var(--dk)}
@@ -246,10 +247,10 @@ footer a{color:var(--or);text-decoration:none}
     overlay.id = 'dd-gate';
     overlay.innerHTML = `
       <div class="gate-inner">
-        <div class="logo">
+        <div class="dd-logo">
           <div>
-            <div class="logo-name">Digitally<em>Defined</em></div>
-            <div class="logo-sub">For Gen X Women Reinventing Themselves, Digitally</div>
+            <div class="dd-logo-name">Digitally<em>Defined</em></div>
+            <div class="dd-logo-sub">For Gen X Women Reinventing Themselves, Digitally</div>
           </div>
         </div>
         <h2>10X ROI <span>Calculator</span></h2>
@@ -269,14 +270,14 @@ footer a{color:var(--or);text-decoration:none}
 <div class="wrap">
 
 <nav>
-  <div class="logo">
+  <div class="dd-logo">
     <div>
-      <div class="logo-name">Digitally<em>Defined</em></div>
-      <div class="logo-sub">For Gen X Women Reinventing Themselves, Digitally</div>
+      <div class="dd-logo-name">Digitally<em>Defined</em></div>
+      <div class="dd-logo-sub">For Gen X Women Reinventing Themselves, Digitally</div>
     </div>
   </div>
-  <span class="badge">10x ROI Calculator</span>
-  <div class="nav-priv">Your inputs stay on this device. No sign-up. No tracking.</div>
+  <span class="dd-badge">10x ROI Calculator</span>
+  <div class="dd-privacy">Your inputs stay on this device. No sign-up. No tracking.</div>
 </nav>
 
 <header class="hero">

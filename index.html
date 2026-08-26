@@ -2,46 +2,97 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DigitallyDefined — Reputation Dashboard</title>
     <meta name="description" content="DigitallyDefined Reputation Dashboard — track your digital real estate, monitor brand signals, and measure your online asset value." />
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="DigitallyDefined — Reputation Dashboard" />
     <meta property="og:description" content="Track your digital real estate and monitor the brand signals that build asset value." />
     <meta property="og:url" content="https://digitallydefined.online/dashboard" />
+    <meta property="og:image" content="https://digitallydefined.online/og-image.png" />
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="DigitallyDefined — Reputation Dashboard" />
     <meta name="twitter:description" content="Track your digital real estate and monitor the brand signals that build asset value." />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <style>
+      /* Inline critical CSS for first-paint — matches global.css theme tokens */
+      *{box-sizing:border-box;margin:0;padding:0}
+      :root{
+        --color-bg:#FFFCF9;--color-surface:#FFFFFF;--color-text:#111111;
+        --color-text-muted:#6B7280;--color-accent:#F18B25;--color-border:#111111;
+        --color-blue:#47B7D4
+      }
+      html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+      body{font-family:'DM Sans',sans-serif;background:var(--color-bg);color:var(--color-text);min-height:100dvh}
+      .dd-container{max-width:1100px;margin:0 auto;padding:0 1.25rem}
+      .dd-logo{font-family:'Inter',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:-.04em;line-height:1;border:1px solid var(--color-border);background:var(--color-surface);padding:.5rem .75rem}
+      .dd-logo em{color:var(--color-accent);font-style:italic}
+      .dd-logo-sub{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--color-text-muted);margin-top:2px}
+      .dd-badge{font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;border:1px solid var(--color-border);background:var(--color-surface);padding:.35rem .75rem}
+      .dd-privacy{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--color-text-muted);margin-top:.5rem;width:100%;text-align:center}
+      .dd-hero{text-align:center;padding:4rem 2.5rem;background:var(--color-text);color:var(--color-surface)}
+      .dd-hero h1{font-family:'Inter',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:-.03em;text-transform:uppercase;line-height:1;color:var(--color-surface);margin:.75rem 0}
+      .dd-hero h1 span{color:var(--color-accent)}
+      .dd-hero p{font-size:.85rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--color-blue);margin-top:.75rem}
+      .dd-content{max-width:720px;margin:0 auto;padding:2.5rem}
+      .dd-orient{border-left:2px solid var(--color-accent);padding:.75rem 1.25rem;background:var(--color-surface);margin-bottom:2rem;font-size:.85rem;font-weight:500;color:var(--color-text);line-height:1.6}
+      .dd-footer{text-align:center;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--color-text-muted);padding:2rem 1rem 1rem;border-top:1px solid #E5E7EB;margin-top:3rem}
+      .dd-footer a{color:var(--color-accent);text-decoration:none}
+      #root>.static-fallback{display:block}#root:not(.hydrated)>.react-content{display:none}
+      #root.hydrated>.static-fallback{display:none}#root.hydrated>.react-content{display:block}
+    </style>
   </head>
+
   <body>
+    <!-- STATIC FALLBACK CONTENT — visible before React hydrates / when JS is blocked -->
+    <!-- This markup mirrors the BrandNav.jsx structure for SEO and instant first paint -->
     <div id="root">
-      <noscript>
-        <div style="font-family: 'DM Sans', sans-serif; min-height: 100dvh; background: #FFFCF9; color: #111; padding: 2rem 1.25rem;">
-          <div style="max-width: 1100px; margin: 0 auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #111; padding-bottom: 1.5rem; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;">
-              <div style="display: flex; align-items: center; gap: 0.6rem;">
-                <div style="font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.1rem; letter-spacing: -0.04em; line-height: 1; border: 1px solid #111; background: #FFFCF9; padding: 0.5rem 0.75rem;">Digitally<em>Defined</em></div>
-              </div>
-              <span style="font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; border: 1px solid #111; background: #fff; padding: 0.35rem 0.75rem;">Reputation Dashboard</span>
-            </div>
-            <header style="text-align: center; margin-bottom: 3rem;">
-              <h1 style="font-family: 'Inter', sans-serif; font-weight: 800; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -0.03em; text-transform: uppercase; line-height: 1; color: #111;">Reputation <span>Dashboard</span></h1>
-              <p style="font-size: 0.85rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #47B7D4; margin-top: 0.75rem;">Track your digital real estate value</p>
-            </header>
-            <p style="border-left: 2px solid #F18B25; padding: 0.75rem 1.25rem; background: #fff; margin-bottom: 2rem; font-size: 0.85rem; font-weight: 500; color: #111; line-height: 1.6; max-width: 600px;">
-              Your dashboard requires JavaScript to load. Please enable JavaScript or return to the <a href="https://digitallydefined.online" style="color: #F18B25;">homepage</a>.
-            </p>
-            <footer style="text-align: center; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #9CA3AF; padding: 2rem 1rem 1rem; border-top: 1px solid #E5E7EB; margin-top: 3rem;">
-              &copy; 2026 <a href="https://digitallydefined.online" style="color: #F18B25; text-decoration: none;">DigitallyDefined</a> — All Rights Reserved
-            </footer>
+      <div class="static-fallback">
+        <!-- Unified Nav — matches homepage shell and calculator -->
+        <nav style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--color-border);padding-bottom:1.5rem;margin-bottom:3rem;flex-wrap:wrap;gap:1rem;max-width:1100px;margin-left:auto;margin-right:auto">
+          <div>
+            <a href="https://digitallydefined.online" style="text-decoration:none">
+              <div class="dd-logo">Digitally<em>Defined</em></div>
+              <div class="dd-logo-sub">For Gen X Women Reinventing Themselves, Digitally</div>
+            </a>
           </div>
+          <span class="dd-badge">Reputation Dashboard</span>
+          <div class="dd-privacy">Your data stays on this device · No sign-up · No tracking</div>
+        </nav>
+
+        <header class="dd-hero">
+          <span style="font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#9CA3AF;margin-bottom:.75rem;display:block">Track your value</span>
+          <h1>Reputation <span>Dashboard</span></h1>
+          <p>Track your digital real estate value</p>
+        </header>
+
+        <div class="dd-content">
+          <p class="dd-orient">
+            Your dashboard requires JavaScript to load. Please enable JavaScript or return to the
+            <a href="https://digitallydefined.online" style="color:var(--color-accent)">homepage</a>.
+          </p>
         </div>
-      </noscript>
+
+        <footer class="dd-footer">
+          &copy; 2026 <a href="https://digitallydefined.online">DigitallyDefined</a> — Digital Real Estate Group — All Rights Reserved
+        </footer>
+      </div>
+
+      <!-- REACT MOUNT POINT — hidden until hydration completes -->
+      <div class="react-content">
+        <div id="react-mount"></div>
+      </div>
     </div>
+    <script>
+      // Hide static fallback, show React content once mounted
+      var root = document.getElementById('root');
+      root.classList.add('hydrated');
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
